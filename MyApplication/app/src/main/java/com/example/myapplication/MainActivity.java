@@ -4,49 +4,66 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.myapplication.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
-
-    private static final String TAG = "MainActivity";
+    private EditText editText;
+    private TextView textView;
+    private RadioButton radioButton_zima;
+    private RadioButton radioButton_leto;
+    private ProgressBar progressBar_zima_leto;
+    private SeekBar seekBar;
+    private ProgressBar progressBarWithSeekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "onCreate: ");
+
+        editText = findViewById(R.id.editText);
+        textView = findViewById(R.id.textView);
+        radioButton_zima = findViewById(R.id.rb_zima);
+        radioButton_leto = findViewById(R.id.rb_leto);
+        progressBar_zima_leto = findViewById(R.id.pb_zima_leto);
+        progressBarWithSeekBar = findViewById(R.id.progressBarWithSeekBar);
+
+        final SeekBar seekBar = findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(this);
+    }
+
+
+    public void onClickET(View view) {
+        textView.setText(editText.getText().toString());
+    }
+
+    public void onClickRBLeto(View view) {
+
+        progressBar_zima_leto.setVisibility(View.INVISIBLE);
+    }
+
+    public void onClickRBZima(View view) {
+        progressBar_zima_leto.setVisibility(View.VISIBLE);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume: ");
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        progressBarWithSeekBar.setProgress(seekBar.getProgress());
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
-    }
-
 }
