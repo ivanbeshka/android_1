@@ -3,8 +3,11 @@ package com.example.myapplication;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -13,13 +16,13 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 
-public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+public class MainActivity extends AppCompatActivity {
 
     private EditText editText;
     private TextView textView;
-    private RadioButton radioButton_zima;
-    private RadioButton radioButton_leto;
-    private ProgressBar progressBar_zima_leto;
+    private RadioButton radioButton_winter;
+    private RadioButton radioButton_summer;
+    private ProgressBar progressBar_summer_winter;
     private SeekBar seekBar;
     private ProgressBar progressBarWithSeekBar;
 
@@ -30,40 +33,59 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         editText = findViewById(R.id.editText);
         textView = findViewById(R.id.textView);
-        radioButton_zima = findViewById(R.id.rb_zima);
-        radioButton_leto = findViewById(R.id.rb_leto);
-        progressBar_zima_leto = findViewById(R.id.pb_zima_leto);
+        radioButton_winter = findViewById(R.id.rb_winter);
+        radioButton_summer = findViewById(R.id.rb_summer);
+        progressBar_summer_winter = findViewById(R.id.pb_summer_winter);
         progressBarWithSeekBar = findViewById(R.id.progressBarWithSeekBar);
-
-        final SeekBar seekBar = findViewById(R.id.seekBar);
-        seekBar.setOnSeekBarChangeListener(this);
-    }
+        seekBar = findViewById(R.id.seekBar);
 
 
-    public void onClickET(View view) {
-        textView.setText(editText.getText().toString());
-    }
+        radioButton_summer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                progressBar_summer_winter.setVisibility(View.VISIBLE);
+            }
+        });
 
-    public void onClickRBLeto(View view) {
+        radioButton_winter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                progressBar_summer_winter.setVisibility(View.INVISIBLE);
+            }
+        });
 
-        progressBar_zima_leto.setVisibility(View.INVISIBLE);
-    }
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    public void onClickRBZima(View view) {
-        progressBar_zima_leto.setVisibility(View.VISIBLE);
-    }
+            }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-    }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textView.setText(s);
+            }
 
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
+            @Override
+            public void afterTextChanged(Editable s) {
 
-    }
+            }
+        });
 
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        progressBarWithSeekBar.setProgress(seekBar.getProgress());
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressBarWithSeekBar.setProgress(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 }
