@@ -48,7 +48,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
 
         public void bind(int position) {
-            textView.setText(contacts.get(position));
+            textView.setText(contacts.get(position).toString());
         }
     }
 }
